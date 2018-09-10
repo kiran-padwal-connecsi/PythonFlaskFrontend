@@ -1,14 +1,17 @@
 import datetime
 from functools import wraps
 import json
+
+import requests
 from flask import Flask, render_template, flash, redirect, url_for, session, request, logging,jsonify
-from model.ConnecsiModel import ConnecsiModel
+# from model.ConnecsiModel import ConnecsiModel
 from passlib.hash import sha256_crypt
 from flask_oauthlib.client import OAuth
 import os
 
 connecsiApp = Flask(__name__)
 connecsiApp.secret_key = 'connecsiSecretKey'
+base_url = 'https://kiranpadwaltestconnecsi.pythonanywhere.com/api/'
 # oauth = OAuth(connecsiApp)
 
 # linkedin = oauth.remote_app(
@@ -55,92 +58,86 @@ def index():
 def registerBrand():
     return render_template('user/registerFormBrand.html')
 
-# @connecsiApp.route('/saveBrand',methods=['GET','POST'])
-# def saveBrand():
-#     if request.method == 'POST':
-#         first_name = request.form.get('first_name')
-#         last_name = request.form.get('last_name')
-#         email = request.form.get('email')
-#         company_name = request.form.get('company_name')
-#         password = request.form.get('password')
-#         password_sha = sha256_crypt.encrypt(str(password))
-#         data = [first_name,last_name,email,company_name,password_sha,'Admin']
-#         # print(data)
-#
-#         columns = ['first_name','last_name','email_id','company_name','password','role']
-#         title = 'Connesi App Login Panel'
-#         try:
-#             connecsiObj = ConnecsiModel()
-#             res = connecsiObj.insert__(data=data,columns=columns,table_name='users_brands',IGNORE='IGNORE')
-#             print(res)
-#             if res == 1:
-#                 flash("Brand Details Successfully Registered", 'success')
-#                 title = 'Connesi App Login Panel'
-#                 return render_template('user/login.html', title=title)
-#             else:
-#                 flash("Internal error please try later", 'danger')
-#                 return render_template('user/login.html', title=title)
-#         except:
-#             flash("Internal error please try later", 'danger')
-#             return render_template('user/login.html',title=title)
+@connecsiApp.route('/saveBrand',methods=['GET','POST'])
+def saveBrand():
+    if request.method == 'POST':
+        url = base_url+'Brand/register'
+        payload = request.form.to_dict()
+        print(payload)
+        del payload['confirm_password']
+        print(payload)
+        title = 'Connesi App Login Panel'
+        try:
+            response = requests.post(url, json=payload)
+            print(response.json())
+            result_json = response.json()
+            print(result_json['response'])
+            result = result_json['response']
+            # exit()
+            if result == 1:
+                flash("Brand Details Successfully Registered", 'success')
+                title = 'Connesi App Login Panel'
+                return render_template('user/login.html', title=title)
+            else:
+                flash("Internal error please try later", 'danger')
+                return render_template('user/login.html', title=title)
+        except:
+            flash("Internal error please try later", 'danger')
+            return render_template('user/registerFormBrand.html',title='Register Brand')
 #
 #
 #
-# #Logout
-# @connecsiApp.route('/logout')
-# def logout():
-#     session.clear()
-#     flash('You are now logged out','success')
-#     return redirect(url_for('index'))
-#
+#Logout
+@connecsiApp.route('/logout')
+def logout():
+    session.clear()
+    flash('You are now logged out','success')
+    return redirect(url_for('index'))
+
 #
 # # User login
-# @connecsiApp.route('/login',methods=['POST'])
-# def login():
-#     if request.method=='POST':
-#         if 'brand' in request.form:
-#             email_id = request.form.get('brand_email')
-#             password = request.form.get('brand_password')
-#             print(email_id)
-#             print(password)
-#             # password_sha = sha256_crypt.encrypt(str(password))
-#             connecsiObj = ConnecsiModel()
-#             data = connecsiObj.get_user_by_email_id(table_name='users_brands',email_id=email_id)
-#             print(data)
-#
-#             if data!=None:
-#                 if sha256_crypt.verify(password,data[4]):
-#                     session['logged_in']=True
-#                     session['email_id']=email_id
-#                     session['first_name'] = data[1]
-#                     session['last_name'] = data[2]
-#                     session['type'] = 'brand'
-#                     session['company_name'] = data[5]
-#                     session['user_id']=data[0]
-#                     print(session['user_id'])
-#                     flash('You are now logged in', 'success')
-#                     return redirect(url_for('admin'))
-#                 else:
-#                     error = 'Invalid login'
-#                     flash(error,'danger')
-#                     print("i m here ")
-#                     return render_template('user/login.html')
-#             else:
-#                 return render_template('user/login.html')
-#
-#         elif 'influencer' in request.form:
-#             email_id = request.form.get('inf_username')
-#             password = request.form.get('inf_password')
-#             print(email_id)
-#             print(password)
-#
-#
-#
-# @connecsiApp.route('/admin')
-# @is_logged_in
-# def admin():
-#     title='Dashboard'
-#     return render_template('index.html',title=title)
+@connecsiApp.route('/login',methods=['POST'])
+def login():
+    if request.method=='POST':
+        if 'brand' in request.form:
+            url = base_url + 'User/login'
+            payload = request.form.to_dict()
+            print(payload)
+            del payload['brand']
+            print(payload)
+            title = ''
+            try:
+                response = requests.post(url, json=payload)
+                print(response.json())
+                result_json = response.json()
+                user_id = result_json['user_id']
+                print(user_id)
+                # exit()
+                if user_id:
+                    flash("logged in", 'success')
+                    session['logged_in'] = True
+                    session['email_id']=payload.get('email')
+                    session['type'] = 'brand'
+                    session['user_id']=user_id
+                    print(session['user_id'])
+                    return redirect(url_for('admin'))
+                else:
+                    flash("Internal error please try later", 'danger')
+                    return render_template('user/login.html', title=title)
+            except:
+                flash("Internal error please try later", 'danger')
+                return render_template('user/login.html', title='Login')
+        elif 'influencer' in request.form:
+            email_id = request.form.get('inf_username')
+            password = request.form.get('inf_password')
+            print(email_id)
+            print(password)
+
+@connecsiApp.route('/admin')
+@is_logged_in
+def admin():
+    title='Dashboard'
+    return render_template('index.html',title=title)
 #
 #
 # @connecsiApp.route('/profileView')

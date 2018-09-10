@@ -1,103 +1,49 @@
-<aside id="left-sidebar-nav">
-    <ul id="slide-out" class="side-nav fixed leftside-navigation">
-        <li class="user-details cyan darken-2">
-            <div class="row">
-                <div class="col col s4 m4 l4">
-                    <img src="/static/images/avatar.jpg" alt="" class="circle responsive-img valign profile-image">
-                </div>
-                <div class="col col s8 m8 l8">
-                    <ul id="profile-dropdown" class="dropdown-content">
-                        <li><a href="profileView"><i class="mdi-action-face-unlock"></i> Profile</a>
+<div data-active-color="black" data-background-color="white" data-image="" class="app-sidebar">
+    <!-- main menu header-->
+    <!-- Sidebar Header starts-->
+    <div class="sidebar-header">
+        <div class="logo clearfix"><a href="/admin" class="logo-text float-left">
+            <div class="logo-img"><img src="static/img/Icon_Only_48x48_color.png"/></div><span class="text align-middle">CONNECSI</span></a><a id="sidebarToggle" href="javascript:;" class="nav-toggle d-none d-sm-none d-md-none d-lg-block"><i data-toggle="expanded" class="ft-toggle-right toggle-icon"></i></a><a id="sidebarClose" href="javascript:;" class="nav-close d-block d-md-block d-lg-none d-xl-none"><i class="ft-x"></i></a></div>
+    </div>
+    <!-- Sidebar Header Ends-->
+    <!-- / main menu header-->
+    <!-- main menu content-->
+    <div class="sidebar-content">
+        <div class="nav-container">
+            <ul id="main-menu-navigation" data-menu="menu-navigation" class="navigation navigation-main">
+                <li class="has-sub nav-item"><a href="/admin"><i class="ft-home"></i><span data-i18n="" class="menu-title">Dashboard</span><span class="tag badge badge-pill badge-danger float-right mr-1 mt-1">2</span></a>
+                    <!--<ul class="menu-content">-->
+                        <!--<li class="active"><a href="dashboard1.html" class="menu-item">Analytics</a>-->
+                        <!--</li>-->
+                        <!--&lt;!&ndash;<li><a href="dashboard2.html" class="menu-item">Dashboard2</a>&ndash;&gt;-->
+                        <!--&lt;!&ndash;</li>&ndash;&gt;-->
+                    <!--</ul>-->
+                </li>
+                <li class=" nav-item"><a href="#"><i class="ft-message-square"></i><span data-i18n="" class="menu-title">Partners</span></a>
+                </li>
+                <li class=" nav-item"><a href="inbox.html"><i class="ft-mail"></i><span data-i18n="" class="menu-title">Inbox</span></a>
+                </li>
+                <li class=" nav-item"><a href="chat.html"><i class="ft-message-square"></i><span data-i18n="" class="menu-title">Chat</span></a>
+                </li>
+                <li class="has-sub nav-item"><a href="/campaigns"><i class="ft-home"></i><span data-i18n="" class="menu-title">Campaigns</span><span class="tag badge badge-pill badge-danger float-right mr-1 mt-1">2</span></a>
+                    <ul class="menu-content">
+                        <li class="active"><a href="dashboard1.html" class="menu-item">Analytics</a>
                         </li>
-                        <li><a href="/profileEdit"><i class="mdi-action-settings"></i> Settings</a>
-                        </li>
-                        <li><a href="#"><i class="mdi-communication-live-help"></i> Help</a>
-                        </li>
-                        <li class="divider"></li>
-                        <!--<li><a href="#"><i class="mdi-action-lock-outline"></i> Lock</a>
-                        </li>-->
-                        <li><a href="/logout"><i class="mdi-hardware-keyboard-tab"></i> Logout</a>
-                        </li>
+                        <!--<li><a href="dashboard2.html" class="menu-item">Dashboard2</a>-->
+                        <!--</li>-->
                     </ul>
-                    <a class="btn-flat dropdown-button waves-effect waves-light white-text profile-btn" href="#" data-activates="profile-dropdown">{{ session.first_name }}<i class="mdi-navigation-arrow-drop-down right"></i></a>
-                    <!--<p class="user-email">{{session.email_id}}</p>-->
-                </div>
-            </div>
-        </li>
-        <li class="bold active"><a href="index.html" class="waves-effect waves-cyan"><i class="mdi-action-dashboard"></i> Dashboard</a>
-        </li>
-
-        <li class="bold"><a href="email" class="waves-effect waves-cyan"><i class="mdi-communication-email"></i> Mailbox <span class="new badge">4</span></a>
-        </li>
-        <li class="no-padding">
-            <ul class="collapsible collapsible-accordion">
-                <li class="bold"><a class="collapsible-header  waves-effect waves-cyan"><i class="mdi-communication-business"></i> Partnership <span class="new badge"></span></a>
-                    <div class="collapsible-body">
-                        <ul>
-                            <li><a href="#">Favorites</a>
-                            </li>
-                            <li><a href="#">Watchlist</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="bold"><a class="collapsible-header  waves-effect waves-cyan"><i class="mdi-communication-business"></i> Campaigns </a>
-                    <div class="collapsible-body">
-                        <ul>
-                            <li><a href="addCampaign">Create New Campaign</a>
-                            </li>
-                            <li><a href="ViewMyCampaigns">All Campaigns</a>
-                            </li>
-                            <li><a href="#">Calender View</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="bold"><a class="collapsible-header  waves-effect waves-cyan"><i class="mdi-action-payment"></i> Payments</a>
-                    <div class="collapsible-body">
-                        <ul>
-                            <li><a href="viewMyPayments">Overview</a>
-                            </li>
-                            <li><a href="addFundsBrands">Add Funds</a>
-                            </li>
-                        </ul>
-                    </div>
                 </li>
 
-                <li class="bold"><a class="collapsible-header waves-effect waves-cyan"><i class="mdi-editor-insert-chart"></i> Reports</a>
-                    <div class="collapsible-body">
-                        <ul>
-                            <li><a href="charts-chartjs.html">Chart JS</a>
-                            </li>
-                            <li><a href="charts-chartist.html">Chartist</a>
-                            </li>
-                            <li><a href="charts-morris.html">Morris Charts</a>
-                            </li>
-                            <li><a href="charts-xcharts.html">xCharts</a>
-                            </li>
-                            <li><a href="charts-flotcharts.html">Flot Charts</a>
-                            </li>
-                            <li><a href="charts-sparklines.html">Sparkline Charts</a>
-                            </li>
-                        </ul>
-                    </div>
+                <!--<li class=" nav-item"><a href="https://pixinvent.com/apex-angular-4-bootstrap-admin-template/documentation"><i class="ft-book"></i><span data-i18n="" class="menu-title">Documentation</span></a>-->
+                <!--</li>-->
+                <li class=" nav-item"><a href="https://connecsisupport.com/"><i class="ft-life-buoy"></i><span data-i18n="" class="menu-title">Support</span></a>
                 </li>
             </ul>
-        </li>
-        <li class="li-hover"><div class="divider"></div></li>
-        <li class="li-hover"><p class="ultra-small margin more-text">MORE</p></li>
-        <li class="li-hover"><div class="divider"></div></li>
-        <li class="li-hover"><p class="ultra-small margin more-text">Daily Sales</p></li>
-        <li class="li-hover">
-            <div class="row">
-                <div class="col s12 m12 l12">
-                    <div class="sample-chart-wrapper">
-                        <div class="ct-chart ct-golden-section" id="ct2-chart"></div>
-                    </div>
-                </div>
-            </div>
-        </li>
-    </ul>
-    <a href="#" data-activates="slide-out" class="sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only cyan"><i class="mdi-navigation-menu"></i></a>
-</aside>
-<!-- END LEFT SIDEBAR NAV-->
+        </div>
+    </div>
+    <!-- main menu content-->
+    <div class="sidebar-background"></div>
+    <!-- main menu footer-->
+    <!-- include includes/menu-footer-->
+    <!-- main menu footer-->
+</div>
